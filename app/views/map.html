@@ -1,0 +1,250 @@
+<div id="map">
+    <ng-map id="mainMap" center="{{center.lat}},{{center.lng}}" zoom="{{center.zoom}}" on-click="addMarker(event, markerType)">
+
+        <!--<marker position="21.161908,-86.8515279" draggable="true" on-dragend="updateDiscover(event)" title="Discover"></marker>-->
+
+        <div ng-if="showForts">
+            <marker ng-repeat="marker in Forts" position="{{marker.lat}},{{marker.lng}}" draggable="{{gymDraggable}}" on-dragend="updtMarkerLocation(event, marker.pokeMarkKey, 'gyms')" title="{{marker.fortName}}" icon="{
+                url:'./img/icons/game/newgym50px.svg'
+              }" on-click="showMarkerInfoWindow(event, marker, 'gyms')"></marker>
+        </div>
+
+        <div ng-if="showPokestops">
+            <marker ng-repeat="stop in pokeStops" position="{{stop.lat}},{{stop.lng}}" draggable="{{pokestopDraggable}}" on-dragend="updtMarkerLocation(event, stop.pokeMarkKey, 'pokestops')" title="{{stop.pokestopName}}" icon="{
+                url:'./img/icons/game/pokestop50px.svg'
+              }" on-click="showMarkerInfoWindow(event, stop, 'pokestops')"></marker>
+        </div>
+
+        <div ng-if="showInterest">
+            <marker ng-repeat="stop in Interest" position="{{stop.lat}},{{stop.lng}}" draggable="{{pokestopDraggable}}" on-dragend="updtMarkerLocation(event, stop.pokeMarkKey, 'interest')" title="{{stop.pokestopName}}" icon="{
+                url:'./img/icons/game/interest.png'
+              }" on-click="showMarkerInfoWindow(event, stop, 'interest')"></marker>
+        </div>
+
+        <div ng-if="showDanger">
+            <marker ng-repeat="stop in Danger" position="{{stop.lat}},{{stop.lng}}" draggable="{{pokestopDraggable}}" on-dragend="updtMarkerLocation(event, stop.pokeMarkKey, 'danger')" title="{{stop.pokestopName}}" icon="{
+                url:'./img/icons/game/bryan.png'
+              }" on-click="showMarkerInfoWindow(event, stop, 'danger')"></marker>
+        </div>
+
+        <div ng-if="showPokemon">
+            <marker ng-repeat="pokemon in pokemonMarkers" position="{{pokemon.lat}},{{pokemon.lng}}" title="user: {{pokemon.user}}" icon="{{pokemon.imgUrl}}" on-click="showPokemonInfoWindow(event, pokemon)"></marker>
+
+            <custom-marker ng-repeat="pokemon in pokemonMarkers" position="{{pokemon.lat}},{{pokemon.lng}}">
+                <div class="timerContainer">
+                    <div class="timerPokemon">
+                        {{timer[pokemon.pokeMarkKey]}}
+                    </div>
+                </div>
+            </custom-marker>
+        </div>
+
+        <div ng-if="showNests">
+            <marker ng-repeat="nest in nestMarkers" position="{{nest.lat}},{{nest.lng}}" title="user: {{nest.user}}" icon="{{nest.imgUrl}}" on-click="showNestInfoWindow(event, nest)"></marker>
+
+            <custom-marker ng-repeat="nest in nestMarkers" position="{{nest.lat}},{{nest.lng}}">
+                <div class="timerContainer">
+                    <div class="nest">
+                        <img src="./img/icons/game/nido.png" width="45" height="45" />
+                    </div>
+                </div>
+            </custom-marker>
+        </div>
+
+        <info-window id="showNestInfoWindow">
+            <div ng-non-bindable="" layout="column" layout-align="start center">
+
+                <div ng-hide="editingComments">{{pokemonInfo.comments}}</div>
+
+                <div ng-hide="editingComments" layout="row" layout-align="center center">
+                    <i class="material-icons pokeThumbs md-padding" ng-click="pokeVoteUp(pokemonInfo)">thumb_up</i>
+                    <span class="md-padding"><b>{{pokemonInfo.voteUp}}</b></span>
+                    <i class="material-icons pokeThumbs md-padding" ng-click="pokeVoteDown(pokemonInfo)">thumb_down</i>
+                    <span class="md-padding"><b>{{pokemonInfo.voteDown}}</b></span>
+                </div>
+
+                <div ng-show="editingComments" layout="column">
+                    <md-input-container>
+                        <label>Comments</label>
+                        <textarea type="text" ng-model="pokemonInfo.comments" md-maxlength="400" rows="3" md-select-on-focus></textarea>
+                    </md-input-container>
+                    <md-button class="md-raised md-accent md-warn" ng-click="saveComments(pokemonInfo)">Save</md-button>
+                </div>
+
+                <div ng-hide="editingComments" layout="row" layout-wrap>
+                    <md-button ng-if="admin===true" md-no-ink class="md-raised md-accent" ng-click="changePokemon(pokemonInfo)">Change Pokemon</md-button>
+                    <md-button ng-if="admin===true" md-no-ink class="md-raised md-accent" ng-click="editComments()">Edit Comments</md-button>
+                    <md-button ng-if="admin===true" class="md-raised md-accent md-warn" ng-click="removeMarker(pokemonInfo)">Remove</md-button>
+                    <md-button aria-label="share" socialshare-type="feed" socialshare-to="1736478399954550" class="md-raised md-accent" aria-hidden="true" socialshare socialshare-provider="facebook" socialshare-via="1481124121916546" socialshare-text="{{pokemonInfo.shareText}}"
+                        socialshare-hashtags="PokemonGo, PokeMap" socialshare-media="{{pokemonInfo.mediaUrl}}" socialshare-url="{{pokemonInfo.shareUrl}}">
+                        Share
+                    </md-button>
+                </div>
+
+                <div layout="row">
+                    <span> {{pokemonInfo.timeFound | date:'mediumTime'}} by</span>&nbsp;
+                    <a href="#/{{city}}/suscriptor/{{pokemonInfo.userId}}"> {{pokemonInfo.user}}</a>
+                </div>
+
+            </div>
+        </info-window>
+
+        <info-window id="pokemonInfoWindow">
+            <div ng-non-bindable="">
+
+                <div style="text-align:center;">
+                    <span class="pokeNameMap"> <b>{{pokemonInfo.name}}</b> </span>
+                </div>
+
+                <div>
+                    <md-button aria-label="share" socialshare-type="feed" socialshare-to="1736478399954550" class="md-raised fa fa-facebook-square fa-2x share-button" aria-hidden="true" socialshare socialshare-provider="facebook" socialshare-via="1481124121916546" socialshare-text="{{pokemonInfo.shareText}}"
+                        socialshare-hashtags="PokemonGo, PokeMap" socialshare-media="{{pokemonInfo.mediaUrl}}" socialshare-url="{{pokemonInfo.shareUrl}}"></md-button>
+                </div>
+
+                <div style="text-align:center; font-size:18px;">
+                    <md-icon class="material-icons" style="font-size:18px;">person</md-icon><a href="#/{{city}}/suscriptor/{{pokemonInfo.userId}}">{{pokemonInfo.user}}</a>
+                </div>
+
+                <div>
+                    <div style="text-align:center;">
+                        <i class="material-icons pokeThumbs" style="font-size:18px;" ng-click="pokeVoteUp(pokemonInfo)">thumb_up</i> <span style="color:green;"><b>{{pokemonInfo.voteUp}}</b></span>
+
+                        <i class="material-icons pokeThumbs" style="font-size:18px;" ng-click="pokeVoteDown(pokemonInfo)">thumb_down</i> <span style="color:red;"><b>{{pokemonInfo.voteDown}}</b></span>
+                    </div>
+                </div>
+
+                <div style="text-align:right; font-size:10px;">
+                    <i class="material-icons" style="font-size:10px;">access_time</i>
+                    <span> {{pokemonInfo.timeFound | date:'mediumTime'}} </span>
+                </div>
+            </div>
+        </info-window>
+
+
+        <info-window id="markerInfoWindow">
+            <div ng-non-bindable="">
+                <div>
+                    <div ng-hide="editingComments">
+                        <span><b>{{markerInfo.userName}}</b></span>
+                    </div>
+                    <div ng-hide="editingComments">
+                        <span>{{markerInfo.time | date}}</span>
+                    </div>
+                    <div ng-hide="editingComments">
+                        <span>{{markerInfo.time | date:'mediumTime'}}</span>
+                    </div>
+
+                    <div ng-hide="editingComments">{{markerInfo.comments}}</div>
+
+                    <div ng-show="editingComments" layout="column">
+                        <md-input-container>
+                            <label>Comments</label>
+                            <textarea type="text" ng-model="markerInfo.comments" md-maxlength="400" rows="3" md-select-on-focus></textarea>
+                        </md-input-container>
+                        <md-button class="md-raised md-accent md-warn" ng-click="saveComments(markerInfo)">Save</md-button>
+                    </div>
+
+                    <div ng-hide="editingComments" layout="row" layout-wrap>
+                        <md-button ng-if="admin===true" md-no-ink class="md-raised md-accent" ng-click="editComments()">Edit Comments</md-button>
+                        <md-button ng-if="admin===true" class="md-raised md-accent md-warn" ng-click="removeMarker(markerInfo)">Remove</md-button>
+                    </div>
+                </div>
+            </div>
+        </info-window>
+
+    </ng-map>
+</div>
+<div class="map_buttons_container">
+    <md-button ng-click="suscribeMe()" ng-if="!ImHere" class="md-raised md-primary">Subscribe {{suscriptions}}</md-button>
+    <md-button ng-click="unSuscribe()" ng-if="ImHere" class="md-raised md-primary">UnSubscribe {{suscriptions}}</md-button>
+
+    <md-button ng-class="showPokestops ? 'md-fab md-mini md-primary' : 'md-fab md-mini md-warn'" aria-label="Use Android" ng-click="showPokestops = !showPokestops">
+        <md-tooltip md-direction="top">Show pokestops</md-tooltip>
+        <md-icon md-svg-src="./img/icons/game/pokestop.svg" aria-label="addPoke"></md-icon>
+    </md-button>
+    <md-button ng-class="showForts ? 'md-fab md-mini md-primary' : 'md-fab md-mini md-warn'" aria-label="Use Android" ng-click="showForts = !showForts">
+        <md-tooltip md-direction="top">Show Gyms</md-tooltip>
+        <md-icon md-svg-src="./img/icons/game/new.svg" aria-label="addGym"></md-icon>
+    </md-button>
+    <md-button ng-class="showNests ? 'md-fab md-mini md-primary' : 'md-fab md-mini md-warn'" aria-label="Use Android" ng-click="showNests = !showNests">
+        <md-tooltip md-direction="top">Show Nests</md-tooltip>
+        <img src="./img/icons/game/nido.png" width="20" height="20">
+    </md-button>
+</div>
+
+<div class="map_left_menu_container">
+    <md-button class="md-raised md-primary" href="#/{{city}}/chat">Chat</md-button>
+
+</div>
+<div class="map_center_menu_container">
+    <img src="./img/icons/game/pikachu-icon2.png" class="pikachuIcon" ng-click="addPokemon()">
+</div>
+<div ng-if="admin===true" class="map_right_menu_container">
+    <div ng-cloak="">
+        <md-fab-speed-dial md-open="false" md-direction="down" class="md-fling">
+
+            <md-fab-trigger>
+                <md-button aria-label="menu" class="md-fab md-warn">
+                    <md-icon md-svg-src="./img/icons/google/ic_add_white_24px.svg"></md-icon>
+                </md-button>
+            </md-fab-trigger>
+
+            <md-fab-actions>
+                <md-button aria-label="addPoke" ng-class="markerType == 'pokestops' ? 'md-fab md-mini md-primary' : 'md-fab md-mini md-raised'" ng-click="setMarkerType('pokestops')">
+                    <md-tooltip md-direction="left">Poke Stop</md-tooltip>
+                    <md-icon md-svg-src="./img/icons/game/pokestop.svg" aria-label="addPoke"></md-icon>
+                </md-button>
+            </md-fab-actions>
+
+            <md-fab-actions>
+                <md-button aria-label="addPoke" ng-class="markerType == 'gyms' ? 'md-fab md-mini md-primary' : 'md-fab md-mini md-raised'" ng-click="setMarkerType('gyms')">
+                    <md-tooltip md-direction="left">Gym</md-tooltip>
+                    <md-icon md-svg-src="./img/icons/game/new.svg" aria-label="addGym"></md-icon>
+                </md-button>
+            </md-fab-actions>
+
+            <md-fab-actions>
+                <md-button aria-label="addPoke" ng-class="markerType == 'nests' ? 'md-fab md-mini md-primary' : 'md-fab md-mini md-raised'" ng-click="setMarkerType('nests')">
+                    <md-tooltip md-direction="left">Nest</md-tooltip>
+                    <img src="./img/icons/game/nido.png" width="20" height="20">
+                </md-button>
+            </md-fab-actions>
+
+            <md-fab-actions>
+                <md-button aria-label="addPoke" ng-class="markerType == 'interest' ? 'md-fab md-mini md-primary' : 'md-fab md-mini md-raised'" ng-click="setMarkerType('interest')">
+                    <md-tooltip md-direction="left">Interest</md-tooltip>
+                    <img src="./img/icons/game/interest.png" width="20" height="20">
+                </md-button>
+            </md-fab-actions>
+
+            <md-fab-actions>
+                <md-button aria-label="addPoke" ng-class="markerType == 'danger' ? 'md-fab md-mini md-primary' : 'md-fab md-mini md-raised'" ng-click="setMarkerType('danger')">
+                    <md-tooltip md-direction="left">Danger</md-tooltip>
+                    <img src="./img/icons/game/bryan.png" width="20" height="20">
+                </md-button>
+            </md-fab-actions>
+
+            <md-fab-actions>
+                <md-button ng-class="showForts ? 'md-fab md-mini md-primary' : 'md-fab md-mini md-warn'" ng-click="go_admin()">
+                    <md-tooltip md-direction="left">Configuration</md-tooltip>
+                    <md-icon md-svg-src="img/icons/social/ic_settings_black_24px.svg" style="color: green;"></md-icon>
+                </md-button>
+            </md-fab-actions>
+
+            <md-fab-actions>
+                <md-button ng-class="showForts ? 'md-fab md-mini md-primary' : 'md-fab md-mini md-warn'" ng-click="go_logs()">
+                    <md-tooltip md-direction="left">Logs</md-tooltip>
+                    <i class="material-icons">list</i>
+                </md-button>
+            </md-fab-actions>
+
+        </md-fab-speed-dial>
+    </div>
+</div>
+<div class="map_right_bot_container">
+    <md-button aria-label="Go to my location" class="md-fab md-mini md-raised" ng-click="goToMyLocation()">
+        <md-tooltip md-direction="left">Go to my location</md-tooltip>
+        <i class="material-icons">my_location</i>
+    </md-button>
+</div>
+<div id="divResult" alt="Right click to save me!"></div>

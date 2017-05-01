@@ -1,0 +1,21 @@
+<div>
+    <div layout="row" class="message_container"  layout-align="start start">
+        <div flex="nogrow" flex-order="{{item.user_id==F.user.key?2:1}}" class="avatar_container">
+             <a href="#/{{map}}/suscriptor/{{item.user_id}}"><img ng-src="{{item.user_photo||'img/default-avatar.png'}}" class="avatar" alt="{{item.user}}"></a>
+        </div>
+        <div flex flex-order="{{item.user_id==F.user.key?1:2}}">
+            <div>
+                <div layout="column" layout-align="start {{item.user_id==F.user.key?'end':'start'}}" >
+                    <div class="bubble"  ng-class="{{item.user_id==F.user.key?'left':'right'}}">
+                        <a href="#/{{map}}/suscriptor/{{item.user_id}}"><label class="{{item.team}} user">{{chat.char}} {{ item.user}}</label></a><br>
+                        <label class="html_msg text" ng-if="item.msg!=''" ng-model="item.msg" messagehtml="ngRepeatFinished"></label><br>
+                        <img  class="image_msg" ng-if="item.img_url" ng-src="{{item.img_url}}" imageonload="ngRepeatFinished" class="md-card-image">
+                        <div style="text-align:right">
+                            <label class="time">{{item.time|date:'mediumTime'}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<div flex layout="column">
+    <div layout="row" layout-align="center center" ng-show="showForm">
+        <form name="newForm">
+            <div layout="column">
+
+                <h2>Create your map</h2>
+               
+                <!--<div style="margin:0 auto;">
+                    <md-input-container md-no-float>
+                        <div class="logo-map contain_upload" ngf-select="uploadLogo(file)" ng-model="file" name="file" ngf-pattern="'image/*'" ngf-accept="'image/*'">
+                            <div ng-hide="!F.indeterminate"><img ng-src="{{F.url_img}}" class="" style="width:100%;height:100%;"></img></div>
+                            <div ng-hide="F.indeterminate">
+                                <md-progress-circular  md-mode="indeterminate"></md-progress-circular>
+                            </div>
+                            <div class="upload_button">
+                                <i class="upload_logo material-icons button-image">add_a_photo</i>
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div>-->
+                
+                <md-input-container class="quit_margin">
+                    <label>Map Name</label>
+                    <input ng-model="map.name" required md-maxlength="30">
+                </md-input-container>
+                
+                <md-input-container class="quit_margin">
+                    <label>URL</label>
+                    <input name="url" ng-model="map.url" pattern="[A-Za-z0-9\S]{1,25}" type="text" required md-maxlength="20" record-availability-validator>
+                    <div ng-messages="newForm.url.$error">
+                        <div ng-message="recordLoading">Checking database...</div>
+                        <div ng-message="recordAvailable">This url is already in use...</div>
+                    </div>
+                </md-input-container>
+                
+                pokecentergo.net/{{map.url  | lowercase}}
+                <br><br><br>
+                
+                <md-input-container class="quit_margin">
+                    <label>Description</label>
+                    <textarea ng-model="map.description" md-maxlength="100"></textarea>
+                </md-input-container>
+                
+                <div layout="row">
+                    <md-button md-no-ink class="md-raised md-accent" ng-disabled="!newForm.$valid" ng-click="save(map)">Save</md-button>
+                    <md-button md-no-ink class="md-raised md-warn" ng-hide="!F.indeterminate" go-click="/">Cancel</md-button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

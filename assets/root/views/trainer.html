@@ -1,0 +1,21 @@
+<div flex layout="column" layout-align="center center">
+    <img class="trainer" src="img/backgrounds/trainer.png" />
+    <form name="newForm">
+        <md-input-container md-no-float>
+            <md-icon md-font-set="material-icons">person</md-icon>
+            <input type="text" name="trainer" ng-model="username" placeholder="Trainer Name" pattern="[A-Za-z0-9\S]{1,25}" required md-maxlength="25" trainer-availability-validator>
+            <div ng-messages="newForm.trainer.$error">
+                <div ng-message="recordLoading">Checking database...</div>
+                <div ng-message="recordAvailable">This trainer is already in use...</div>
+            </div>
+        </md-input-container>
+    </form>
+    <md-radio-group ng-model="team">
+        <md-radio-button value="Valor"><span class="red">Valor</span></md-radio-button>
+        <md-radio-button value="Mystic"><span class="blue">Mystic</span></md-radio-button>
+        <md-radio-button value="Instinct"><span class="yellow">Instinct</span></md-radio-button>
+    </md-radio-group>
+    <md-button class="white-color md-raised md-primary" ng-click="saveTrainer(username,team,'Cancun')" ng-disabled="checkForm(username,team)">
+        Save Trainer
+    </md-button>
+</div>

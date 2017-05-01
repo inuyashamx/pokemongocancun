@@ -1,0 +1,31 @@
+<div ng-repeat="log in logs">
+    <div ng-if="log.type=='gyms'"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> added a <img src="img/icons/game/new.svg" width="30" height="30"> on map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}} ago</div>
+    <div ng-if="log.type=='pokestops'"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> added a <img src="img/icons/game/pokestop.svg" width="30" height="30">on map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}} ago</div>
+    <div ng-if="log.type=='pokemons'"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> added a <img src="img/icons/game/pokemon/{{log.pokemon}}.png" width="30" height="30">on map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}} ago</div>
+
+    <!-- admin  -->
+    <div ng-if="log.type=='adminAdd'"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> added <a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.toUserTrainer}}</a> as admin on map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}} ago
+    </div>
+    <div ng-if="log.type=='adminRemove'"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> remove <a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.toUserTrainer}}</a> as admin on map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}} ago
+    </div>
+
+    <!-- vote  -->
+    <div ng-if="log.type=='voteUp'"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> <i class="material-icons">thumb_up</i></a> on <img src="img/icons/game/pokemon/{{log.pokemon}}.png" width="30" height="30"> of <a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.toUserTrainer}}</a>        in map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}} ago</div>
+    <div ng-if="log.type=='voteDown'"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> <i class="material-icons">thumb_down</i></a> on <img src="img/icons/game/pokemon/{{log.pokemon}}.png" width="30" height="30"> of <a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.toUserTrainer}}</a>        in map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}} ago</div>
+
+    <!-- chat -->
+    <div ng-if="log.type=='userChatPrivilegestrue'"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> add chat privileges to <a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.toUserTrainer}}</a> on map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}}
+        ago
+    </div>
+    <div ng-if="log.type=='userChatPrivilegesfalse'"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> remove chat privileges to <a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.toUserTrainer}}</a> on map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}}
+        ago
+    </div>
+
+    <!-- map -->
+    <div ng-if="log.type=='userMapPrivilegestrue' && log.byUserTrainer"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> add map privileges to <a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.toUserTrainer}}</a> on map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}}
+        ago
+    </div>
+    <div ng-if="log.type=='userMapPrivilegesfalse' && log.byUserTrainer"><a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.byUserTrainer}}</a> remove map privileges to <a href="#/{{log.map}}/suscriptor/{{log.toUserKey}}">{{log.toUserTrainer}}</a> on map <a href="#/{{log.map}}">{{log.mapName}}</a> {{timeSince(log.timestamp)}}
+        ago
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div layout="column" id="chat_wrapper" class="container-full">
+    <md-tabs flex md-selected="selectedTabIndex" md-swipe-content="true" class="md-primary md-hue-2">
+        <div><md-icon md-font-set="material-icons" ng-click="openLeftMenu()" style="color: white;">menu</md-icon></div>
+        <md-tab ng-repeat="chat in chats| orderBy:'-enabled'" ng-disabled="!chat.enabled" md-on-select="changeRoom(chat.title);">
+            <md-tab-label layout="column">
+                <label class="{{chat.class}}" ng-class="chat.enabled?'active':''">
+                        {{chat.title}}
+                    </label>
+                <img ng-src="{{chat.img}}" style="height:20px;">
+            </md-tab-label>
+            <md-tab-body>
+                <div layout="column" layout-align="start stretch">
+                    <message ng-repeat="item in chat.messages" city="{{map}}" on-finish-render="ngRepeatFinished" item="item"></message>
+                </div>
+            </md-tab-body>
+        </md-tab>
+    </md-tabs>
+    <div flex="nogrow">
+        <form>
+            <div flex layout="row">
+                <div flex="nogrow">
+                    <i ng-disabled="!F.user" ngf-select="upload(file,selectedTab)" ng-model="file" name="file" ngf-pattern="'image/*'" ngf-accept="'image/*'" class="material-icons button-image">add_a_photo</i>
+                </div>
+                <div flex>
+                    <md-input-container class="md-block">
+                        <label>Write a message ...</label>
+                        <textarea ng-enter="saveMsg(selectedTab)" type="text" ng-model="msg" md-maxlength="400" rows="3" md-select-on-focus></textarea>
+                    </md-input-container>
+                </div>
+                <div flex="nogrow">
+                    <md-button class="md-fab" ng-click="saveMsg(selectedTab)">
+                        <md-icon md-font-set="material-icons">send</md-icon>
+                    </md-button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div flex class="{{profile.team|lowercase}}Background container-profile">
+   
+    <div layout="column" class="profilePic profileBG{{profile.team|lowercase}}">
+        <h1 id="txtProfile">{{profile.trainer}}</h1>
+        <img id="imgProfile" src="{{profile.photoURL | imageAvatar }}" width="100" height="100">
+        </br>
+        </br>
+    </div>
+
+    <div id="likeBox" layout="row"  layout-align="center start">
+        <div class="likes-div" layout="row" layout-align="center center">
+            <i class="material-icons pokeThumbs" ng-click="pokeVoteUp(pokemonInfo.pokeMarkKey)">thumb_up</i>
+            <div>{{profile.likes}}</div>
+        </div>
+        <div class="likes-div2" layout="row" layout-align="center center">
+            <i class="material-icons pokeThumbs" ng-click="pokeVoteUp(pokemonInfo.pokeMarkKey)">thumb_down</i>
+            <div>{{profile.dislikes}}</div>
+        </div>
+    </div>
+    
+    <h3>Reputation</h3>
+    
+    <div layout="row" layout-align="center start">
+        <md-progress-linear class="progress-width" md-mode="determinate" value="{{reputation}}"></md-progress-linear>
+    </div>
+
+    <h3>{{reputation}}%</h3>
+   
+    <logs origin="users" key="{{UserKey}}"></logs>
+    
+</div>

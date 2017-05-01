@@ -1,0 +1,22 @@
+<div class="md-dialog-container" flex="66">
+    <md-dialog aria-label="PokemonList">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                Add a pokemon to the map!
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div layout="column" layout-align="center center">
+                <md-input-container md-no-float class="md-block">
+                    <md-icon md-svg-src="img/icons/google/ic_search_white_24px.svg"></md-icon>
+                    <input ng-model="pokemonFilter" type="text" placeholder="Search pokemon">
+                </md-input-container>
+                <div layout="row" layout-wrap layout-align="center start">
+                    <div ng-repeat="pokemon in DialogPokemonList | filter : pokemonFilter" class="pokeCircleIcon" ng-click="answer(pokemon)">
+                        <img ng-src="./img/icons/game/pokemon/{{pokemon.id}}.png">
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+    </md-dialog>
+</div>

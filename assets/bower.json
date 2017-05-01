@@ -1,0 +1,32 @@
+{
+  "name": "pokemongosocial",
+  "authors": [
+    "Paul Nuñez <jpnc_18@hotmail.com>"
+  ],
+  "description": "App Pokemon Go Social",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-aria": "^1.5.8",
+    "angular-material": "^1.0.9",
+    "angular-animate": "^1.5.8",
+    "angular-sanitize": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "angular-google-chart": "^0.1.0",
+    "angular-socialshare": "angularjs-socialshare#^2.2.3",
+    "ngmap": "^1.17.3",
+    "firebase": "^3.2.1",
+    "angular-ui-router": "^0.3.1",
+    "ng-file-upload-shim": "^12.0.4",
+    "ng-file-upload": "^12.0.4",
+    "angular-moment": "^0.10.3"
+  }
+}

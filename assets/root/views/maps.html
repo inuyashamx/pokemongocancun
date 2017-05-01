@@ -1,0 +1,23 @@
+<div layout="column" flex class="container-maps">
+    <md-button md-no-ink class="md-raised md-accent" ng-click="NewMap()">Create your map</md-button>
+    <div layout="row" layout-align="center center" ng-if="maps.length==0">
+        <div>There are no maps near your area</div>
+    </div>
+    <md-list ng-hide="showForm">
+        <md-list-item class="md-3-line" ng-repeat="map in maps | orderBy:'-suscriptions'" href="#/{{map.url}}?lat={{map.latitute}}&lng={{map.longitude}}&zoom=13">
+            <div class="md-list-item-text" layout="column">
+                <div layout="row">
+                    <img src="img/icons/game/icon-map.png" width="50" height="50" />
+                    <div flex>{{map.name}}</div>
+                    <div flex="nogrow"><md-icon md-font-set="material-icons">person</md-icon> {{ map.suscriptions}}</div>
+                    <div flex="nogrow"><md-button md-no-ink class="md-primary md-raised" href="#/{{map.url}}/chat">CHAT</md-button></div>
+                </div>
+                <div layout="row">
+                    <p flex>{{map.description}}</p>
+                    
+                </div>
+            </div>
+            <md-divider></md-divider>
+        </md-list-item>
+    </md-list>
+</div>

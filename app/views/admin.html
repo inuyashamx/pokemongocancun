@@ -1,0 +1,47 @@
+<div flex layout="column" layout-align="start center">
+
+    <h1>Administrators</h1>
+
+    <ul layout-wrap layout="row" class="admins-list" layout-align="center start">
+        <li ng-repeat="owner in owners">
+            <img src="{{owner.photoURL | imageAvatar}}" width="80" height="80" />
+            <div>{{owner.trainer}}</div>
+        </li>
+        <li ng-repeat="admin in admins">
+            <i class="material-icons" ng-click="remove(admin)">close</i>
+            <img src="{{admin.photoURL | imageAvatar}}" width="80" height="80" />
+            <div>{{admin.trainer}}</div>
+        </li>
+    </ul>
+
+    <div flex layout="column" layout-align="start center">
+
+        <h1>Subscriptors</h1>
+        <div flex-gt-sm="50" flex>
+            <md-subheader class="md-no-sticky">Set user permissions ...</md-subheader>
+            <md-input-container class="md-icon-float md-block">
+      <!-- Use floating label instead of placeholder -->
+      <label>Search</label>
+      <md-icon><i class="material-icons">search</i></md-icon>
+      <input ng-model="userSearch" type="text">
+    </md-input-container>
+            <md-list-item ng-repeat="user in users | filter:userSearch" ng-click="goToPerson(person.name, $event)" class="noright">
+                <img alt="{{ user.trainer }}" ng-src="{{ user.photoURL }}" class="md-avatar" />
+                <p>{{ user.trainer }}</p>
+                <md-button ng-class="user.chat == true ? 'md-icon-button md-primary' : 'md-icon-button md-warn'" aria-label="Send Chat" ng-click="userChatPrivileges(user)">
+                    <md-icon><i class="material-icons">chat</i></md-icon>
+                </md-button>
+                <md-button ng-class="user.map == true ? 'md-icon-button md-primary' : 'md-icon-button md-warn'" aria-label="Add Location" ng-click="userMapPrivileges(user)">
+                    <md-icon><i class="material-icons">add_location</i></md-icon>
+                </md-button>
+                <md-button ng-class="user.admin == false ? 'md-icon-button md-primary' : 'md-icon-button md-warn'" aria-label="Add Admin" ng-click="addAdmin(user)">
+                    <md-icon><i class="material-icons">person</i></md-icon>
+                </md-button>
+            </md-list-item>
+            </md-list>
+        </div>
+
+    </div>
+   
+
+</div>

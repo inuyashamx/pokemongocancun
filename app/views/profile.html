@@ -1,0 +1,15 @@
+<div flex layout="column" class="{{profile.team|lowercase}}Background container-profile" layout-align="start center">
+    <h1>{{profile.trainer}}</h1>
+
+    <img src="{{profile.photoURL | imageAvatar }}" width="100" height="100">
+
+    <h2>Map suscriptions</h2>
+    
+    <div ng-repeat="suscription in profile.suscriptions">
+        <md-button ng-href="#/{{suscription.url}}" class="md-raised">{{suscription.map}}</md-button>
+    </div>
+    
+     
+    
+    <md-button ng-href="#/" class="md-primary md-raised">VIEW MORE MAPS</md-button>
+</div>
